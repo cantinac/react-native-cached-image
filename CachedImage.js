@@ -39,17 +39,7 @@ function getImageProps(props) {
 
 const CACHED_IMAGE_REF = 'cachedImage';
 
-class CachedImage extends React.Component{
-    propTypes: {
-        renderImage: PropTypes.func.isRequired,
-        activityIndicatorProps: PropTypes.object.isRequired,
-        useQueryParamsInCacheKey: PropTypes.oneOfType([
-            PropTypes.bool,
-            PropTypes.array
-        ]).isRequired,
-        resolveHeaders: PropTypes.func
-    }
-
+class CachedImage extends React.Component {
     getDefaultProps() {
         return {
             renderImage: props => (<Image ref={CACHED_IMAGE_REF} {...props}/>),
@@ -189,7 +179,17 @@ class CachedImage extends React.Component{
             )
         });
     }
-});
+}
+
+CachedImage.propTypes = {
+  renderImage: PropTypes.func.isRequired,
+  activityIndicatorProps: PropTypes.object.isRequired,
+  useQueryParamsInCacheKey: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.array
+  ]),
+  resolveHeaders: PropTypes.func
+}
 
 /**
  * Same as ReactNaive.Image.getSize only it will not download the image if it has a cached version
