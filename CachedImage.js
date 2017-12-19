@@ -2,13 +2,6 @@
 
 const _ = require('lodash');
 const React = require('react');
-const ReactNative = require('react-native');
-const PropTypes = require('prop-types');
-const flattenStyle = ReactNative.StyleSheet.flatten;
-const ImageCache'use strict';
-
-const _ = require('lodash');
-const React = require('react');
 const PropTypes = require('prop-types');
 const ReactNative = require('react-native');
 const createReactClass = require('create-react-class');
