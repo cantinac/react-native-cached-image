@@ -3,6 +3,7 @@
 const _ = require('lodash');
 const React = require('react');
 const ReactNative = require('react-native');
+const PropTypes = require('prop-types');
 const flattenStyle = ReactNative.StyleSheet.flatten;
 const ImageCacheProvider = require('./ImageCacheProvider');
 
@@ -38,7 +39,7 @@ function getImageProps(props) {
 
 const CACHED_IMAGE_REF = 'cachedImage';
 
-const CachedImage = React.createClass({
+class CachedImage extends React.Component{
     propTypes: {
         renderImage: React.PropTypes.func.isRequired,
         activityIndicatorProps: React.PropTypes.object.isRequired,
@@ -47,7 +48,7 @@ const CachedImage = React.createClass({
             React.PropTypes.array
         ]).isRequired,
         resolveHeaders: React.PropTypes.func
-    },
+    }
 
     getDefaultProps() {
         return {
@@ -56,7 +57,7 @@ const CachedImage = React.createClass({
             useQueryParamsInCacheKey: false,
             resolveHeaders: () => Promise.resolve({})
         };
-    },
+    }
 
     setNativeProps(nativeProps) {
         try {
@@ -64,7 +65,7 @@ const CachedImage = React.createClass({
         } catch (e) {
             console.error(e);
         }
-    },
+    }
 
     getInitialState() {
         this._isMounted = false;
@@ -73,14 +74,14 @@ const CachedImage = React.createClass({
             cachedImagePath: null,
             networkAvailable: true
         };
-    },
+    }
 
     safeSetState(newState) {
         if (!this._isMounted) {
             return;
         }
         return this.setState(newState);
-    },
+    }
 
     componentWillMount() {
         this._isMounted = true;
@@ -94,24 +95,24 @@ const CachedImage = React.createClass({
             });
 
         this.processSource(this.props.source);
-    },
+    }
 
     componentWillUnmount() {
         this._isMounted = false;
         NetInfo.isConnected.removeEventListener('change', this.handleConnectivityChange);
-    },
+    }
 
     componentWillReceiveProps(nextProps) {
         if (!_.isEqual(this.props.source, nextProps.source)) {
             this.processSource(nextProps.source);
         }
-    },
+    }
 
     handleConnectivityChange(isConnected) {
         this.safeSetState({
             networkAvailable: isConnected
         });
-    },
+    }
 
     processSource(source) {
         const url = _.get(source, ['uri'], null);
@@ -140,7 +141,7 @@ const CachedImage = React.createClass({
                 isCacheable: false
             });
         }
-    },
+    }
 
     render() {
         if (this.state.isCacheable && !this.state.cachedImagePath) {
@@ -156,7 +157,7 @@ const CachedImage = React.createClass({
             style,
             source
         });
-    },
+    }
 
     renderLoader() {
         const imageProps = getImageProps(this.props);
